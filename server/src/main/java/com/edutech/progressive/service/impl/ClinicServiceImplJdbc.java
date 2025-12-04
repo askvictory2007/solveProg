@@ -4,38 +4,60 @@ import com.edutech.progressive.dao.ClinicDAO;
 import com.edutech.progressive.entity.Clinic;
 import com.edutech.progressive.service.ClinicService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ClinicServiceImplJdbc implements ClinicService {
 
-    private ClinicDAO clinicDAO;
+    private final ClinicDAO clinicDAO;
 
     public ClinicServiceImplJdbc(ClinicDAO clinicDAO) {
         this.clinicDAO = clinicDAO;
     }
 
     @Override
-    public List<Clinic> getAllClinics() {
-        return List.of();
+    public List<Clinic> getAllClinics() throws Exception {
+        try {
+            return clinicDAO.getAllClinics();
+        } catch (SQLException e) {
+            throw new Exception("Error fetching all clinics", e);
+        }
     }
 
     @Override
-    public Clinic getClinicById(int clinicId) {
-        return null;
+    public Clinic getClinicById(int clinicId) throws Exception {
+        try {
+            Clinic clinic = clinicDAO.getClinicById(clinicId);
+            return clinic;
+        } catch (Exception e) {
+            throw new Exception("Error fetching clinic with ID " + clinicId, e);
+        }
     }
 
     @Override
-    public Integer addClinic(Clinic clinic) {
-        return -1;
+    public Integer addClinic(Clinic clinic) throws Exception {
+        try {
+            return clinicDAO.addClinic(clinic);
+        } catch (SQLException e) {
+            throw new Exception("Error adding clinic: " + clinic.getClinicName(), e);
+        }
     }
 
     @Override
-    public void updateClinic(Clinic clinic) {
-
+    public void updateClinic(Clinic clinic) throws Exception {
+        try {
+            clinicDAO.updateClinic(clinic);
+        } catch (SQLException e) {
+            throw new Exception("Error updating clinic with ID " + clinic.getClinicId(), e);
+        }
     }
 
     @Override
-    public void deleteClinic(int clinicId) {
-
+    public void deleteClinic(int clinicId) throws Exception {
+        try {
+            clinicDAO.deleteClinic(clinicId);
+        } catch (SQLException e) {
+            throw new Exception("Error deleting clinic with ID " + clinicId, e);
+        }
     }
 }
