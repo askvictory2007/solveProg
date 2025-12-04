@@ -3,27 +3,34 @@ package com.edutech.progressive.service.impl;
 import com.edutech.progressive.entity.Doctor;
 import com.edutech.progressive.service.DoctorService;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class DoctorServiceImplArraylist  implements DoctorService {
 
+    private static List<Doctor> doctorList = new ArrayList<>();
+
     @Override
     public void emptyArrayList() {
-
+        doctorList = new ArrayList<>();
     }
 
     @Override
     public List<Doctor> getAllDoctors() {
-        return List.of();
+        return doctorList;
     }
 
     @Override
     public Integer addDoctor(Doctor doctor) {
-        return -1;
+        doctorList.add(doctor);
+        return doctorList.size();
     }
 
     @Override
     public List<Doctor> getDoctorSortedByExperience() {
-        return List.of();
+        List<Doctor> sortedDoctors = doctorList;
+        sortedDoctors.sort(Comparator.comparing(Doctor::getYearsOfExperience));
+        return sortedDoctors;
     }
 }
